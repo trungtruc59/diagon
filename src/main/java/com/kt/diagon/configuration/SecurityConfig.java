@@ -13,15 +13,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig  {
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth-> auth.requestMatchers("/").permitAll()
-                        .requestMatchers("/assets/**").permitAll()
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin.loginPage("/login").defaultSuccessUrl("/admin", true).permitAll().failureUrl("/login"))
-//                .formLogin(formRegister -> formRegister.loginPage("/register").defaultSuccessUrl("/login", true).permitAll().failureUrl("/register"))
-                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll());
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authz -> authz
+                        .anyRequest().permitAll()  // Allow all requests without authentication
+                )
+                .csrf(csrf -> csrf.disable());  // Disable CSRF in the new way
+
         return http.build();
     }
 
