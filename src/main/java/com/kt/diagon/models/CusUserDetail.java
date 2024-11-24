@@ -38,7 +38,7 @@ public class CusUserDetail implements UserDetails {
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                !user.isLock(),
+                true,
                 authorities
         );
     }
