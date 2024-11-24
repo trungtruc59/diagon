@@ -14,6 +14,8 @@ public class User {
     private Roles role;
 
     private int id_permission;
+
+    @Column(unique = true, updatable = false)
     private String username;
     private String password;
     private String avatar;

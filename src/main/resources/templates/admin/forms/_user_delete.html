@@ -1,0 +1,17 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form th:action="${'/nhan-vien/delete/'+ userId}" method="post">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userModal">Xóa người dùng</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa tài khoản này!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-danger">Xóa</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form th:action="${isUpdate} ? ${'/nhan-vien/'+ user.getId()} : ${'/nhan-vien'}" th:object="${user}" method="post">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userModal">
+                    <span th:if="${isUpdate}">Cập nhật người dùng</span>
+                    <span th:if="${!isUpdate}">Thêm người dùng</span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="username" class="form-label">Tên tài khoản</label>
+                <input type="text" class="form-control" id="username" placeholder="Nhập tên tài khoản" required
+                       th:field="*{username}" th:disabled="${isUpdate}">
+                <input type="hidden" class="form-control" placeholder="Nhập mật khẩu"
+                       th:field="*{password}" th:if="${isUpdate}">
+
+                <div th:if="${!isUpdate}">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu"
+                           th:field="*{password}">
+                </div>
+
+                <label for="first-name" class="form-label">Tên</label>
+                <input type="text" class="form-control" id="first-name" placeholder="Nhập họ"
+                       th:field="*{fullname}">
+
+                <label for="gender" class="form-label">Giới tin</label>
+
+                <select class="form-select" th:field="*{gender}" id="gender">
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                </select>
+
+                    <label for="phone-number" class="form-label">Số điện thoại</label>
+                    <input type="number" class="form-control" id="phone-number" placeholder="Nhập số điện thoại"
+                           th:field="*{phone}">
+
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Nhập email" th:field="*{email}">
+
+                    <label for="user-role" class="form-label">Vai trò</label>
+                    <select id="user-role" class="form-select" th:field="*{role}">
+                        <option th:each="r : ${roles}" th:value="${r.getRoleId()}" th:text="${r.getName()}"></option>
+                    </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary">
+                    <span th:if="${isUpdate}">Cập nhật</span>
+                    <span th:if="${!isUpdate}">Thêm</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

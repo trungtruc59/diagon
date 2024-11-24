@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="admin/layout/_layout" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách nhân viên</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <h1 class="h3 my-3">Danh sách nhân viên</h1>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#user-modal" onclick="getFormContent(this, '/user/form')">Thêm nhân viên</button>
+                        <div class="col-4">
+<!--                            <input type="text" class="form-control" placeholder="Tìm người dùng">-->
+                        </div>
+                    </div>
+                    <hr />
+                    <table class="table">
+                        <tr>
+                            <th>Tên người dùng</th>
+                            <th>Chức vụ</th>
+                            <th>Họ Tên</th>
+                            <th>Giới tính</th>
+                            <th>Số điện thoại</th>
+                            <th>Email</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.getRole().getName()}"></td>
+                            <td th:text="${user.fullname}"></td>
+                            <td th:text="${user.gender == 0 ? 'Nam' : 'Nữ'}"></td>
+                            <td th:text="${user.phone != null ? user.phone : '' }"></td>
+                            <td th:text="${user.email != null ? user.email : '' }"></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" th:disabled="${#authentication.principal.getId() == user.id}">
+                                        <i class="fa-solid fa-list"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#user-modal" th:attr="data-object-id=${user.id}" onclick="getFormContent(this, '/user/form')">Cập nhật thông tin</li>
+<!--                                        <li class="dropdown-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#user-modal" th:attr="data-object-id=${user.id}" onclick="getFormContent(this, '/user/reset')">Đặt lại mật khẩu</li>-->
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li class="dropdown-item cursor-pointer text-danger" data-bs-toggle="modal" data-bs-target="#user-modal" th:attr="data-object-id=${user.id}" onclick="getFormContent(this, '/user/delete')">Xóa người dùng</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="user-modal" tabindex="-1" aria-labelledby="userModal" aria-hidden="true">
+        <div class="modal-dialog"></div>
+    </div>
+
+</th:block>
+
+
+<th:block layout:fragment="script">
+    <script>
+        function getFormContent (element, url="/user/form") {
+            fetch(url + (element.dataset.objectId ? `?id=${element.dataset.objectId}` : ""))
+                .then(res => res.text())
+                .then(form => {
+
+                    document.getElementById("user-modal").innerHTML = form;
+                })
+        }
+    </script>
+</th:block>
+</body>
+</html>
